@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@android:color/holo_green_dark"
+    android:weightSum="2">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:weightSum="4">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/namePlaceItem"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:elevation="1dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </FrameLayout>
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/addressPlaceItem"
+            android:layout_weight="1"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/distancePlaceItem"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/imagPlaceItem"
+        android:layout_weight="0.50" />
+
+</LinearLayout>
