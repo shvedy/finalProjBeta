@@ -37,7 +37,7 @@ public class firstFrag extends Fragment implements LocationListener {
     Button searchBtn;
     EditText searchET;
     EditText citySearchET;
-    boolean nearby = false;
+
 
     LocationListener locationManager;
 
@@ -55,6 +55,7 @@ public class firstFrag extends Fragment implements LocationListener {
         citySearchET = (EditText) view.findViewById(R.id.citySearchET);
         nearbyCHB = (CheckBox) view.findViewById(R.id.nearbyCHB);
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +64,14 @@ public class firstFrag extends Fragment implements LocationListener {
 
                 Intent intent = new Intent(getActivity(), searchService.class);
 
-                if (nearby) {
+                if (DBConstant.nearby) {
                     intent.putExtra("lat", lat);
                     intent.putExtra("lon", lon);
-                    intent.putExtra("userSearch", searchET.getText());
+                    intent.putExtra("userSearch", searchET.getText().toString());
+
                 } else {
-                    intent.putExtra("userSearch", searchET.getText());
-                    intent.putExtra("userCitySearch", citySearchET.getText());
+                    intent.putExtra("userSearch", searchET.getText().toString());
+                    intent.putExtra("userCitySearch", citySearchET.getText().toString());
                 }
                 getActivity().startService(intent);
 
@@ -82,10 +84,10 @@ public class firstFrag extends Fragment implements LocationListener {
 
                 if (!isChecked) {
                     citySearchET.setVisibility(View.VISIBLE);
-
+                    DBConstant.nearby = false;
                 } else {
                     citySearchET.setVisibility(View.INVISIBLE);
-                    nearby = true;
+                    DBConstant.nearby = true;
 
                 }
 
@@ -136,4 +138,5 @@ public class firstFrag extends Fragment implements LocationListener {
 
         }
     }
+
 }

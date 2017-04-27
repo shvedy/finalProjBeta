@@ -29,30 +29,31 @@ public class searchService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String userSearch = intent.getStringExtra("userSearch");
-        String userCitySearch = intent.getStringExtra("userCitySearch");
-        String URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userSearch + "%20in%20" + userCitySearch + "&key=AIzaSyDo6e7ZL0HqkwaKN-GwKgqZnW03FhJNivQ).build()";
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(URL).build();
+        if (!DBConstant.nearby) {
+            String userSearch = intent.getStringExtra("userSearch");
+            String userCitySearch = intent.getStringExtra("userCitySearch");
+            String URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userSearch + "%20in%20" + userCitySearch+ "&key=AIzaSyCMR_zknin2aHNROgqn-wWR3byMOVM7VEY";
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(URL).build();
 
-        String result = "";
+            String result = "";
 
-        try {
+            try {
 
-            Response response = client.newCall(request).execute();
-            result = response.body().string();
+                Response response = client.newCall(request).execute();
+                result = response.body().string();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Gson gson = new Gson();
+            PlaceList placeList = gson.fromJson(result, PlaceList.class);
+            ArrayList<Place> allPlaces = placeList.results;
+
+            Intent sendToBroadcastIntent = new Intent("allPlacesIntent");
+            sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromService", allPlaces);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(sendToBroadcastIntent);
         }
-        Gson gson = new Gson();
-        PlaceList placeList = gson.fromJson(result, PlaceList.class);
-        ArrayList<Place> allPlaces = placeList.results;
-
-        Intent sendToBroadcastIntent = new Intent("allPlacesIntent");
-        sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromService", allPlaces);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(sendToBroadcastIntent);
-
 
     }
 

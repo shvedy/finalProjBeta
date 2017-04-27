@@ -3,6 +3,8 @@ package com.example.amitshveber.finalprojbeta;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by amit shveber on 25/04/2017.
  */
@@ -13,6 +15,7 @@ public class Place implements Parcelable{
     String formatted_address;
     String vicinity;
     geometry geometry;
+    ArrayList<MyPhoto>photos;
 
     protected Place(Parcel in) {
         name = in.readString();

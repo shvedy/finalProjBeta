@@ -6,7 +6,7 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChangeFragMaster{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
         //new transaction (replace/ add/ remove)
         getFragmentManager().beginTransaction().replace(R.id.myRelative, firstFrag).commit();
 
+
+    }
+
+    @Override
+    public void changeFragments(Place currentPlace) {
 
     }
 }
