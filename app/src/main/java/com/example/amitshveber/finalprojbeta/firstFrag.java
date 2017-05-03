@@ -1,15 +1,20 @@
 package com.example.amitshveber.finalprojbeta;
 
 
+import android.Manifest;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +26,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -37,9 +44,7 @@ public class firstFrag extends Fragment implements LocationListener {
     Button searchBtn;
     EditText searchET;
     EditText citySearchET;
-
-
-    LocationListener locationManager;
+    LocationManager locationManager;
 
     public firstFrag() {
 
@@ -56,25 +61,44 @@ public class firstFrag extends Fragment implements LocationListener {
         nearbyCHB = (CheckBox) view.findViewById(R.id.nearbyCHB);
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
 
+        locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            //requestLocationUpdates(the provider used to get location - gps/network , refresh time milliseconds ,minimum refresh distance,
+            //location listener)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 1, this);
+        } else {
+            //request permission 12 is the request number
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12);
+        }
+
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (new CheckConnection(getActivity()).isNetworkAvailable()) {
 
-                //Toasty.success(getActivity(), "hhhhhhh",Toast.LENGTH_SHORT, true ).show();
+                    Intent intent = new Intent(getActivity(), searchService.class);
 
-                Intent intent = new Intent(getActivity(), searchService.class);
+                    if (DBConstant.nearby) {
 
-                if (DBConstant.nearby) {
-                    intent.putExtra("lat", lat);
-                    intent.putExtra("lon", lon);
-                    intent.putExtra("userSearch", searchET.getText().toString());
 
+                        intent.putExtra("lat", lat);
+                        intent.putExtra("lon", lon);
+                        intent.putExtra("userSearch", searchET.getText().toString());
+
+                    } else {
+
+                        intent.putExtra("userSearch", searchET.getText().toString());
+                        intent.putExtra("userCitySearch", citySearchET.getText().toString());
+                    }
+                    getActivity().startService(intent);
                 } else {
-                    intent.putExtra("userSearch", searchET.getText().toString());
-                    intent.putExtra("userCitySearch", citySearchET.getText().toString());
-                }
-                getActivity().startService(intent);
+                    Toasty.error(getActivity(), "hhhhhhh no Connaction!", Toast.LENGTH_SHORT, true).show();
 
+                }
             }
         });
 
@@ -97,6 +121,8 @@ public class firstFrag extends Fragment implements LocationListener {
         IntentFilter intentFilter = new IntentFilter("allPlacesIntent");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBoadCast(), intentFilter);
 
+        IntentFilter intentFilter1 = new IntentFilter("allPlacesIntentNearby");
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBoadCast(), intentFilter1);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.searchRV);
         return view;
@@ -132,11 +158,40 @@ public class firstFrag extends Fragment implements LocationListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromService");
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            Recycler0ViewAdapter myAdap=new Recycler0ViewAdapter(eliranPlaces,getActivity());
-            recyclerView.setAdapter(myAdap);
+            if (eliranPlaces == null) {
 
+                Toasty.error(getActivity(), " No Location Found!!", Toast.LENGTH_SHORT, true).show();
+            } else {
+
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(eliranPlaces, getActivity());
+
+                recyclerView.setAdapter(myAdap);
+            }
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ArrayList<sugarLastSearch> sugarLastSearchArrayList = (ArrayList<sugarLastSearch>) sugarLastSearch.listAll(sugarLastSearch.class);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ArrayList<Place> danielPlace = new ArrayList<>();
+
+        for (int i = 0; i < sugarLastSearchArrayList.size(); i++) {
+            location loc=new location(sugarLastSearchArrayList.get(i).lat,sugarLastSearchArrayList.get(i).lng);
+            geometry geo=new geometry(loc);
+            danielPlace.add(new Place(sugarLastSearchArrayList.get(i).Name, sugarLastSearchArrayList.get(i).Image, sugarLastSearchArrayList.get(i).Adress, sugarLastSearchArrayList.get(i).distance, geo,sugarLastSearchArrayList.get(i).Image ));
+
+
+        }
+
+
+        Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(danielPlace, getActivity());
+
+        recyclerView.setAdapter(myAdap);
+    }
 }

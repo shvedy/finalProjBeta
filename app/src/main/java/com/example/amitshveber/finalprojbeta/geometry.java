@@ -6,4 +6,8 @@ package com.example.amitshveber.finalprojbeta;
 
 public class geometry {
     location location;
+
+    public geometry(location location) {
+        this.location = location;
+    }
 }

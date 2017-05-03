@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:background="@android:color/holo_green_dark"
+    android:background="@android:color/darker_gray"
     android:orientation="horizontal"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:layout_margin="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_height="200dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,15 +21,6 @@
         android:weightSum="4">
 
         <TextView
-            android:id="@+id/namePlaceItem"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.3"
-            android:elevation="1dp"
-            android:text="TextView"
-            android:textSize="20sp" />
-
-        <TextView
             android:id="@+id/addressPlaceItem"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -36,9 +29,18 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/namePlaceItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3"
+            android:elevation="1dp"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/distancePlaceItem"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView" />
 

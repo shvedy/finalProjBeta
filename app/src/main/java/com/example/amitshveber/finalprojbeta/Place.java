@@ -24,6 +24,15 @@ public class Place implements Parcelable{
         vicinity = in.readString();
     }
 
+    public Place(String name, String icon, String formatted_address, String vicinity, com.example.amitshveber.finalprojbeta.geometry geometry, String photos) {
+        this.name = name;
+        this.icon = icon;
+        this.formatted_address = formatted_address;
+        this.vicinity = vicinity;
+        this.geometry = geometry;
+       // this.photos = photos;
+    }
+
     public static final Creator<Place> CREATOR = new Creator<Place>() {
         @Override
         public Place createFromParcel(Parcel in) {

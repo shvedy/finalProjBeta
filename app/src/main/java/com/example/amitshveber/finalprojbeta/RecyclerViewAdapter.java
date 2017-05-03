@@ -2,14 +2,18 @@ package com.example.amitshveber.finalprojbeta;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orm.SugarContext;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,25 +57,69 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
         TextView addressPlaceItem;
         TextView distancePlaceItem;
         ImageView imagePlace;
+        View itemView;
 
         public myViewHolder(final View itemView) {
             super(itemView);
+            this.itemView = itemView;
             nameTV = (TextView) itemView.findViewById(R.id.namePlaceItem);
             addressPlaceItem = (TextView) itemView.findViewById(R.id.addressPlaceItem);
             distancePlaceItem = (TextView) itemView.findViewById(R.id.distancePlaceItem);
             imagePlace = (ImageView) itemView.findViewById(R.id.imagPlaceItem);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                //TODO press on RV
-
-                }
-            });
 
         }
 
-        public void tayTheCurrentPlaceToItem(Place place) {
+        public void tayTheCurrentPlaceToItem(final Place place) {
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO press on RV
+
+                    ChangeFragMaster ChFM = (ChangeFragMaster) context;
+                    ChFM.changeFragments(allPlace.get(getAdapterPosition()));
+
+
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    //Creating the instance of PopupMenu
+                    PopupMenu popup = new PopupMenu(context, v);
+                    //Inflating the Popup using xml file
+                    popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.shareITEM:
+
+                                    //TODO blabla
+
+                                    break;
+
+                                case R.id.favoriteItem:
+
+                                    SugarContext.init(context);
+                                    sugar s = new sugar(place.name, place.geometry.location.lng, place.formatted_address, place.icon, place.vicinity, place.geometry.location.lat);
+                                    s.save();
+
+
+                                    break;
+                            }
+
+
+                            return true;
+                        }
+                    });
+                    return true;
+
+                }
+            });
 
             nameTV.setText(place.name);
             addressPlaceItem.setText(place.formatted_address);

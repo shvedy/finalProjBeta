@@ -7,4 +7,9 @@ package com.example.amitshveber.finalprojbeta;
 public class location {
     double lat;
     double lng;
+
+    public location(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
 }
