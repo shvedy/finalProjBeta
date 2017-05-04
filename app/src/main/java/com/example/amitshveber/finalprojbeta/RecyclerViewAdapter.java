@@ -99,6 +99,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
                                 case R.id.shareITEM:
 
                                     //TODO blabla
+                                    //TODO lalalOMER
 
                                     break;
 
