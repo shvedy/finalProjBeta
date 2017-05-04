@@ -6,7 +6,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
-import com.orm.SugarContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,8 +59,11 @@ public class searchService extends IntentService {
             double lon = intent.getDoubleExtra("lon", 0);
             String userSearch = intent.getStringExtra("userSearch");
 
+            //String URL ="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=32.0667481,34.7767533&radius=500&keyword=pizza&key=AIzaSyDl8biKf3RH-rNiJTGkhigj7v011XWTfTI";
 
-            String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lon + "&radius=500&keyword=" + userSearch + "&key=AIzaSyCMR_zknin2aHNROgqn-wWR3byMOVM7VEY";
+            //String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=32.0531445,34.7555643&radius=500&keyword=" + userSearch + "&key=AIzaSyCMR_zknin2aHNROgqn-wWR3byMOVM7VEY";
+           String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lon + "&radius=500&keyword=" + userSearch + "&key=AIzaSyDl8biKf3RH-rNiJTGkhigj7v011XWTfTI";
+
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(URL).build();
 
@@ -81,16 +83,6 @@ public class searchService extends IntentService {
             Intent sendToBroadcastIntent = new Intent("allPlacesIntentNearby");
             sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromServiceNearby", allPlaces);
             LocalBroadcastManager.getInstance(this).sendBroadcast(sendToBroadcastIntent);
-            sugarLastSearch.deleteAll(sugarLastSearch.class);
-
-            for (int i = 0; i < allPlaces.size(); i++) {
-
-                SugarContext.init(this);
-                sugarLastSearch sugarLastSearch = new sugarLastSearch(allPlaces.get(i).name, allPlaces.get(i).formatted_address, allPlaces.get(i).vicinity, allPlaces.get(i).icon, allPlaces.get(i).geometry.location.lat, allPlaces.get(i).geometry.location.lng);
-                sugarLastSearch.save();
-
-
-            }
 
 
         }

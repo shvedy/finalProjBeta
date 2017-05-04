@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.amitshveber.finalprojbeta">
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-
-
-        android:name="com.orm.SugarApp">
-        .
-        .
-        <meta-data android:name="DATABASE" android:value="Places.db" />
-        <meta-data android:name="VERSION" android:value="2" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example" />
-
-
-
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +22,13 @@
 
         <service
             android:name=".searchService"
-            android:exported="false"></service>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN-MOzXaeJ0Yht8fbCsE_pv9FwxIm00hA"/>
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCMR_zknin2aHNROgqn-wWR3byMOVM7VEY" />
+
+        <activity android:name=".favoriteScreen" />
     </application>
 
 </manifest>

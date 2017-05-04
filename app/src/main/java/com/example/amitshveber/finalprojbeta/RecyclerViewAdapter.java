@@ -1,6 +1,6 @@
 package com.example.amitshveber.finalprojbeta;
 
-import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orm.SugarContext;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -58,6 +56,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
         TextView distancePlaceItem;
         ImageView imagePlace;
         View itemView;
+        Place currentPlace;
 
         public myViewHolder(final View itemView) {
             super(itemView);
@@ -75,7 +74,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO press on RV
+
 
                     ChangeFragMaster ChFM = (ChangeFragMaster) context;
                     ChFM.changeFragments(allPlace.get(getAdapterPosition()));
@@ -83,6 +82,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
 
                 }
             });
+            final mySql mySql = new mySql(context);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -104,9 +104,15 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
 
                                 case R.id.favoriteItem:
 
-                                    SugarContext.init(context);
-                                    sugar s = new sugar(place.name, place.geometry.location.lng, place.formatted_address, place.icon, place.vicinity, place.geometry.location.lat);
-                                    s.save();
+                                    ContentValues contentValues = new ContentValues();
+                                    contentValues.put(DBConstant.nameColumm,currentPlace.name);
+                                    contentValues.put(DBConstant.addressColumm,currentPlace.formatted_address);
+                                    contentValues.put(DBConstant.distanceColumm,currentPlace.vicinity);
+                                    contentValues.put(DBConstant.ImgColumm,currentPlace.icon);
+                                    contentValues.put(DBConstant.latColumm,currentPlace.geometry.location.lat);
+                                    contentValues.put(DBConstant.lngColumm,currentPlace.geometry.location.lng);
+                                    currentPlace = allPlace.get(getAdapterPosition());
+                                    mySql.getWritableDatabase().insert(DBConstant.tableNameFav, null,contentValues );
 
 
                                     break;

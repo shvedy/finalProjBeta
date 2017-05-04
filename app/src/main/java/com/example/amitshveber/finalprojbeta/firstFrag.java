@@ -157,7 +157,7 @@ public class firstFrag extends Fragment implements LocationListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromService");
+            ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromServiceNearby");
             if (eliranPlaces == null) {
 
                 Toasty.error(getActivity(), " No Location Found!!", Toast.LENGTH_SHORT, true).show();
@@ -176,22 +176,17 @@ public class firstFrag extends Fragment implements LocationListener {
     public void onResume() {
         super.onResume();
 
-        ArrayList<sugarLastSearch> sugarLastSearchArrayList = (ArrayList<sugarLastSearch>) sugarLastSearch.listAll(sugarLastSearch.class);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ArrayList<Place> danielPlace = new ArrayList<>();
+       // recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        for (int i = 0; i < sugarLastSearchArrayList.size(); i++) {
-            location loc=new location(sugarLastSearchArrayList.get(i).lat,sugarLastSearchArrayList.get(i).lng);
-            geometry geo=new geometry(loc);
-            danielPlace.add(new Place(sugarLastSearchArrayList.get(i).Name, sugarLastSearchArrayList.get(i).Image, sugarLastSearchArrayList.get(i).Adress, sugarLastSearchArrayList.get(i).distance, geo,sugarLastSearchArrayList.get(i).Image ));
+
+
 
 
         }
 
 
-        Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(danielPlace, getActivity());
 
-        recyclerView.setAdapter(myAdap);
-    }
+
+
 }
