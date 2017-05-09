@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
             case R.id.goFavotriteOM:
                 Intent intent=new Intent(MainActivity.this, favoriteScreen.class);
                 startActivity(intent);
+                //
 
 
 
