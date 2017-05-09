@@ -3,8 +3,11 @@ package com.example.amitshveber.finalprojbeta;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import layout.BlankFragment;
 
@@ -34,5 +37,34 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
         getFragmentManager().beginTransaction().addToBackStack("mapFFrag").replace(R.id.myRelative, mapFragContain).commit();
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.goFavotriteOM:
+                Intent intent=new Intent(MainActivity.this, favoriteScreen.class);
+                startActivity(intent);
+
+
+
+                break;
+
+
+
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

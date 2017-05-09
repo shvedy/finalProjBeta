@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by amit shveber on 20/04/2017.
@@ -91,7 +94,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
                     PopupMenu popup = new PopupMenu(context, v);
                     //Inflating the Popup using xml file
                     popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
-
+popup.show();
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -104,18 +107,28 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
                                     break;
 
                                 case R.id.favoriteItem:
+                                    currentPlace = allPlace.get(getAdapterPosition());
 
                                     ContentValues contentValues = new ContentValues();
                                     contentValues.put(DBConstant.nameColumm,currentPlace.name);
-                                    contentValues.put(DBConstant.addressColumm,currentPlace.formatted_address);
-                                    contentValues.put(DBConstant.distanceColumm,currentPlace.vicinity);
+
+                                  if (currentPlace.formatted_address!=null){
+
+                                      contentValues.put(DBConstant.addressColumm,currentPlace.formatted_address);
+
+
+                                  }else{
+
+                                      contentValues.put(DBConstant.distanceColumm,currentPlace.vicinity);
+
+                                  }
+
                                     contentValues.put(DBConstant.ImgColumm,currentPlace.icon);
                                     contentValues.put(DBConstant.latColumm,currentPlace.geometry.location.lat);
                                     contentValues.put(DBConstant.lngColumm,currentPlace.geometry.location.lng);
-                                    currentPlace = allPlace.get(getAdapterPosition());
                                     mySql.getWritableDatabase().insert(DBConstant.tableNameFav, null,contentValues );
 
-
+                                    Toasty.success(context, "Saved:))", Toast.LENGTH_SHORT, true).show();
                                     break;
                             }
 

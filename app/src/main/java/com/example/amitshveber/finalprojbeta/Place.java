@@ -58,4 +58,9 @@ public class Place implements Parcelable{
         dest.writeString(formatted_address);
         dest.writeString(vicinity);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
