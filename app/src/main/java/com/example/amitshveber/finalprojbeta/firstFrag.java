@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -61,6 +62,10 @@ public class firstFrag extends Fragment implements LocationListener {
         nearbyCHB = (CheckBox) view.findViewById(R.id.nearbyCHB);
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
 
+        mySqlLastSearch mySqlLastSearch=new mySqlLastSearch(getActivity());
+        Cursor cursor=mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch,null,null,null,null,null,null);
+
+
         locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -96,7 +101,7 @@ public class firstFrag extends Fragment implements LocationListener {
                     }
                     getActivity().startService(intent);
                 } else {
-                    Toasty.error(getActivity(), "hhhhhhh no Connaction!", Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getActivity(), "no Connaction bra'", Toast.LENGTH_SHORT, true).show();
 
                 }
             }
@@ -119,10 +124,10 @@ public class firstFrag extends Fragment implements LocationListener {
         });
 
         IntentFilter intentFilter = new IntentFilter("allPlacesIntent");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBoadCast(), intentFilter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBroadCast(), intentFilter);
 
         IntentFilter intentFilter1 = new IntentFilter("allPlacesIntentNearby");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBoadCast(), intentFilter1);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBroadCast(), intentFilter1);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.searchRV);
         return view;
@@ -152,7 +157,7 @@ public class firstFrag extends Fragment implements LocationListener {
     }
 
 
-    public class myBoadCast extends BroadcastReceiver {
+    public class myBroadCast extends BroadcastReceiver {
 
 
         @Override
@@ -176,17 +181,11 @@ public class firstFrag extends Fragment implements LocationListener {
     public void onResume() {
         super.onResume();
 
-
-       // recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
+//TODO need todo somthing here.
+        // recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-
-        }
-
-
-
+    }
 
 
 }

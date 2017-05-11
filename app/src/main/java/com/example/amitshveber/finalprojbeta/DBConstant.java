@@ -6,6 +6,7 @@ package com.example.amitshveber.finalprojbeta;
 
 public class DBConstant {
     public static final String tableNameFav = "Locations";
+    public static final String tableNameLastSearch = "Places";
     public static final String nameColumm = "Name";
     public static final String addressColumm = "Address";
     public static final String idColumm = "_id";

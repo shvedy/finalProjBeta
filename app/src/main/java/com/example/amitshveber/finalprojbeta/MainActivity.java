@@ -52,9 +52,10 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
         switch (item.getItemId()){
 
             case R.id.goFavotriteOM:
+
                 Intent intent=new Intent(MainActivity.this, favoriteScreen.class);
                 startActivity(intent);
-                //
+
 
 
 

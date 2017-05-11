@@ -101,8 +101,7 @@ popup.show();
                             switch (item.getItemId()) {
                                 case R.id.shareITEM:
 
-                                    //TODO blabla
-                                    //TODO lalalOMER
+                                    //TODO Shareeee
 
                                     break;
 
