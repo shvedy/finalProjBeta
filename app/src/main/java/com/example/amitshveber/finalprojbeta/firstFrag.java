@@ -63,7 +63,7 @@ public class firstFrag extends Fragment implements LocationListener {
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
 
         mySqlLastSearch mySqlLastSearch=new mySqlLastSearch(getActivity());
-        Cursor cursor=mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch,null,null,null,null,null,null);
+       //Cursor cursor=mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch,null,null,null,null,null,null);
 
 
         locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);

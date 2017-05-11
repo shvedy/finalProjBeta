@@ -3,12 +3,16 @@ package com.example.amitshveber.finalprojbeta;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import layout.BlankFragment;
 
 public class MainActivity extends AppCompatActivity implements ChangeFragMaster {
@@ -68,5 +72,17 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
 
 
         return super.onOptionsItemSelected(item);
+    }
+    public static class myReceiverBattery extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals("android.intent.action.ACTION_POWER_CONNECTED"))
+                Toasty.info(context , "Power Connected", Toast.LENGTH_SHORT, true).show();
+            else{
+                Toasty.info(context , "Power Disconnected", Toast.LENGTH_SHORT, true).show();
+            }
+        }
     }
 }

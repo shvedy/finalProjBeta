@@ -20,6 +20,14 @@
             </intent-filter>
         </activity>
 
+
+        <receiver android:name=".MainActivity$myReceiverBattery">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".searchService"
             android:exported="false" />
@@ -30,5 +38,8 @@
 
         <activity android:name=".favoriteScreen" />
     </application>
+
+
+
 
 </manifest>
