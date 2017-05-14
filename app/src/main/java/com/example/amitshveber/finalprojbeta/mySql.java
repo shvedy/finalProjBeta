@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class mySql extends SQLiteOpenHelper {
     public mySql(Context context) {
-        super(context, "Movies.db", null, 1);
+        super(context, "Movie.db", null, 1);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {

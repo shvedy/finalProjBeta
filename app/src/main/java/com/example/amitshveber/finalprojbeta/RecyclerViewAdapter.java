@@ -2,6 +2,7 @@ package com.example.amitshveber.finalprojbeta;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
         ImageView imagePlace;
         View itemView;
         Place currentPlace;
+
         mySql mySql;
         public myViewHolder(final View itemView) {
             super(itemView);
@@ -102,6 +104,14 @@ popup.show();
                                 case R.id.shareITEM:
 
                                     //TODO Shareeee
+                                    currentPlace= (Place) allPlace.get(getAdapterPosition());
+                                    String location="https://www.google.co.il/maps/@"+currentPlace.geometry.location.lat+","+currentPlace.geometry.location.lng+",18.79z?hl=en";
+                                    //
+                                    Intent sharingIntent=new Intent(android.content.Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "place Details");
+                                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,location );
+                                    context.startActivity(sharingIntent);
 
                                     break;
 

@@ -50,7 +50,22 @@ public class searchService extends IntentService {
             Gson gson = new Gson();
             PlaceList placeList = gson.fromJson(result, PlaceList.class);
             ArrayList<Place> allPlaces = placeList.results;
+            mySqlLastSearch mySqlLastSearch = new mySqlLastSearch(this);
+            ContentValues contentValues = new ContentValues();
+            for (int i = 0; i <allPlaces.size() ; i++) {
 
+                contentValues.put(DBConstant.nameColumm,allPlaces.get(i).name);
+                if (allPlaces.get(i).formatted_address!=null){
+                    contentValues.put(DBConstant.addressColumm,allPlaces.get(i).formatted_address);
+                }else{
+                    contentValues.put(DBConstant.distanceColumm,allPlaces.get(i).vicinity);
+                }
+                contentValues.put(DBConstant.ImgColumm,allPlaces.get(i).icon);
+                contentValues.put(DBConstant.latColumm,allPlaces.get(i).geometry.location.lat);
+                contentValues.put(DBConstant.lngColumm,allPlaces.get(i).geometry.location.lng);
+
+                mySqlLastSearch.getWritableDatabase().insert(DBConstant.tableNameLastSearch, null,contentValues );
+            }
             Intent sendToBroadcastIntent = new Intent("allPlacesIntent");
             sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromService", allPlaces);
             LocalBroadcastManager.getInstance(this).sendBroadcast(sendToBroadcastIntent);
@@ -99,13 +114,6 @@ public class searchService extends IntentService {
                 contentValues.put(DBConstant.lngColumm,allPlaces.get(i).geometry.location.lng);
 
                 mySqlLastSearch.getWritableDatabase().insert(DBConstant.tableNameLastSearch, null,contentValues );
-
-
-
-
-
-
-
             }
 
             Intent sendToBroadcastIntent = new Intent("allPlacesIntentNearby");

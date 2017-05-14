@@ -62,15 +62,7 @@ public class firstFrag extends Fragment implements LocationListener {
         nearbyCHB = (CheckBox) view.findViewById(R.id.nearbyCHB);
         recyclerView = (RecyclerView) view.findViewById(R.id.searchRV);
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
-        ArrayList<Place> lastSearchArrayFromSql = new ArrayList<Place>();
-        mySqlLastSearch mySqlLastSearch = new mySqlLastSearch(getActivity());
-        Cursor cursor = mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch, null, null, null, null, null, null);
-        lastSearchArrayFromSql = mySqlLastSearch.makeArreListFromCursor(cursor);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(lastSearchArrayFromSql, getActivity());
-        Toasty.info(getActivity(), "This Is Last Search.", Toast.LENGTH_SHORT, true).show();
 
-        recyclerView.setAdapter(myAdap);
 
 
         locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);
@@ -169,7 +161,7 @@ public class firstFrag extends Fragment implements LocationListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromService");
+            ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromServiceNearby");
             if (eliranPlaces == null) {
 
                 Toasty.error(getActivity(), " No Location Found!!", Toast.LENGTH_SHORT, true).show();
@@ -186,6 +178,16 @@ public class firstFrag extends Fragment implements LocationListener {
 
     @Override
     public void onResume() {
+
+        mySqlLastSearch mySqlLastSearch = new mySqlLastSearch(getActivity());
+        Cursor cursor = mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch, null, null, null, null, null, null);
+        ArrayList<Place> lastSearchArrayFromSql = mySqlLastSearch.makeArreListFromCursor(cursor);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(lastSearchArrayFromSql, getActivity());
+        if (cursor.getCount()!=0) {
+            Toasty.info(getActivity(), "This Is Last Search.", Toast.LENGTH_SHORT, true).show();
+        }
+        recyclerView.setAdapter(myAdap);
         super.onResume();
 
 //TODO need todo somthing here.
