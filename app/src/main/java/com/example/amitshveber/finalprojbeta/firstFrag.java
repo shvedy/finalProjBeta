@@ -60,10 +60,17 @@ public class firstFrag extends Fragment implements LocationListener {
         searchET = (EditText) view.findViewById(R.id.searchET);
         citySearchET = (EditText) view.findViewById(R.id.citySearchET);
         nearbyCHB = (CheckBox) view.findViewById(R.id.nearbyCHB);
+        recyclerView = (RecyclerView) view.findViewById(R.id.searchRV);
         searchBtn = (Button) view.findViewById(R.id.searchBtn);
+        ArrayList<Place> lastSearchArrayFromSql = new ArrayList<Place>();
+        mySqlLastSearch mySqlLastSearch = new mySqlLastSearch(getActivity());
+        Cursor cursor = mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch, null, null, null, null, null, null);
+        lastSearchArrayFromSql = mySqlLastSearch.makeArreListFromCursor(cursor);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Recycler0ViewAdapter myAdap = new Recycler0ViewAdapter(lastSearchArrayFromSql, getActivity());
+        Toasty.info(getActivity(), "This Is Last Search.", Toast.LENGTH_SHORT, true).show();
 
-        mySqlLastSearch mySqlLastSearch=new mySqlLastSearch(getActivity());
-       //Cursor cursor=mySqlLastSearch.getReadableDatabase().query(DBConstant.tableNameLastSearch,null,null,null,null,null,null);
+        recyclerView.setAdapter(myAdap);
 
 
         locationManager = (LocationManager) getActivity().getSystemService(Service.LOCATION_SERVICE);
@@ -129,7 +136,7 @@ public class firstFrag extends Fragment implements LocationListener {
         IntentFilter intentFilter1 = new IntentFilter("allPlacesIntentNearby");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new myBroadCast(), intentFilter1);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.searchRV);
+
         return view;
     }
 

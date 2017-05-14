@@ -60,7 +60,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
         ImageView imagePlace;
         View itemView;
         Place currentPlace;
-
+        mySql mySql;
         public myViewHolder(final View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -85,7 +85,7 @@ class Recycler0ViewAdapter extends RecyclerView.Adapter<Recycler0ViewAdapter.myV
 
                 }
             });
-            final mySql mySql = new mySql(context);
+              mySql = new mySql(context);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
