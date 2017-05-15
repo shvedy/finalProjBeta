@@ -67,7 +67,7 @@ public class searchService extends IntentService {
                 mySqlLastSearch.getWritableDatabase().insert(DBConstant.tableNameLastSearch, null,contentValues );
             }
             Intent sendToBroadcastIntent = new Intent("allPlacesIntent");
-            sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromService", allPlaces);
+            sendToBroadcastIntent.putParcelableArrayListExtra("allPlacsesFromServiceNearby", allPlaces);
             LocalBroadcastManager.getInstance(this).sendBroadcast(sendToBroadcastIntent);
         } else {
 

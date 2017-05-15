@@ -161,7 +161,9 @@ public class firstFrag extends Fragment implements LocationListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+
             ArrayList<Place> eliranPlaces = intent.getParcelableArrayListExtra("allPlacsesFromServiceNearby");
+
             if (eliranPlaces == null) {
 
                 Toasty.error(getActivity(), " No Location Found!!", Toast.LENGTH_SHORT, true).show();
