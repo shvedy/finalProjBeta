@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import es.dmoral.toasty.Toasty;
@@ -32,14 +33,25 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
 
     @Override
     public void changeFragments(Place currentPlace) {
-        Bundle data = new Bundle();
-        data.putDouble("lat", currentPlace.geometry.location.lat);
-        data.putDouble("lng", currentPlace.geometry.location.lng);
 
-        BlankFragment mapFragContain = new BlankFragment();
-        mapFragContain.setArguments(data);
-        getFragmentManager().beginTransaction().addToBackStack("mapFFrag").replace(R.id.myRelative, mapFragContain).commit();
+if(isLargeDevice()){
+    Bundle data = new Bundle();
+    data.putDouble("lat", currentPlace.geometry.location.lat);
+    data.putDouble("lng", currentPlace.geometry.location.lng);
 
+    BlankFragment mapFragContain = new BlankFragment();
+    mapFragContain.setArguments(data);
+    getFragmentManager().beginTransaction().addToBackStack("mapFFragzzz").replace(R.id.rightCotainer, mapFragContain).commit();
+}
+        else {
+    Bundle data = new Bundle();
+    data.putDouble("lat", currentPlace.geometry.location.lat);
+    data.putDouble("lng", currentPlace.geometry.location.lng);
+
+    BlankFragment mapFragContain = new BlankFragment();
+    mapFragContain.setArguments(data);
+    getFragmentManager().beginTransaction().addToBackStack("mapFFrag").replace(R.id.myRelative, mapFragContain).commit();
+}
 
     }
 
@@ -85,4 +97,18 @@ public class MainActivity extends AppCompatActivity implements ChangeFragMaster 
             }
         }
     }
+
+    private boolean isLargeDevice()
+    {
+        boolean isLarge=false;
+        LinearLayout rightLayout=(LinearLayout) findViewById(R.id.rightCotainer);
+        if(rightLayout != null)
+        {
+            isLarge=true;
+        }
+        return isLarge;
+    }
+
+
+
 }
